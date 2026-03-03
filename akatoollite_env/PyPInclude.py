@@ -10,7 +10,7 @@ def include_dir(project, dir = "include", all_ext_allow = False, root = True, er
     target = __join_path(project, dir)
     assert not root or __is_dir(target), FileNotFoundError(f"PyPInclude need directory 'include', but in this project, no directory name {target}")
     if root and not all_ext_allow: all_ext_allow = ("allow" in ls(target))
-    if root and not error: error = ("deny" in ls(target)
+    if root and not error: error = ("deny" in ls(target))
     if not all_ext_allow:
         for f in ls(target):
             if __is_dir(f):
