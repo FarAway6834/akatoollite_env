@@ -32,7 +32,14 @@ def PyPInclude(project, dir = "include", all_ext_allow = False, error = False, r
 
 def main():
     pkg = __program_param[1]
-    allow_all_ext = ("--allow-all-ext" in __program_param")
-    error_enable = ("--error-enable" in __program_param")
+    ls_pkg = ls(pkg)
+    allow_all_ext = ("--allow-all-ext" in __program_param)
+    error_enable = ("--error-enable" in __program_param)
+    etc_include = ("--etc-include" in __program_param)
+    if not etc_include and "etc_include" in ls_pkg: etc_include = True
     repo = __get_dir(pkg)
-    with open(__join_path(repo, "MANIFAST.in"), "w") as fp: fp.write(PyPInclude(pkg, allow_all_ext = allow_all_ext, error = error_enable))
+    assert __is_dir(pkg), ValueError("target is not exist directory")
+    with open(__join_path(repo, "MANIFAST.in"), "w") as fp:
+        src = PyPInclude(pkg, allow_all_ext = allow_all_ext, error = error_enable)
+        if "etc" in ls_pkg and __is_dir(__join_path(pkg, "etc") and etc_include: src += "\nrecursive-include etc/ *"
+        fp.write(src)
