@@ -8,12 +8,13 @@ from os import listdir as ls
 
 def include_dir(dir, all_ext_allow = False, root = True):
     assert not root or __is_dir(dir), FileNotFoundError(f"PyPInclude need directory 'include', but in this project, no directory name {dir}")
+    if root: all_ext_allow = ("allow" in ls())
     if not all_ext_allow:
         for f in ls(dir):
             if __is_dir(f): include_dir(__join_path(dir, f))
             elif __is_link(f): pass
             elif __is_file(f):
                 fn, ext = __split_ext(f)
-                if ext in ["h", "pch", "lib", "a", "dll", "so", "pyd", "pyx", "pxd"0
+                assert ext in ["h", "pch", "lib", "a", "dll", "so", "pyd", "pyx", "pxd", "c", "cpp", "cs", "py", "pyz", "zip", "pywz"], ValueError("PyPInclude project's include directory need to include only h/pch/lib/a/dll/so/pyd/pyx/pxd/c/cpp/cs/py/pyz/zip/pywz s.t. when if no file \"allow\"")
             else:
                 raise ValueError(f"unknown blob object at {f}. cannot validifing PyPInclude project. (invalid blob PyPInclude)")
